@@ -1,6 +1,11 @@
 from flask import Flask, render_template, request, redirect, url_for
+from flask_socketio import SocketIO, emit
+
+
 
 app = Flask(__name__)
+app.config['SECRET_KEY'] = 'your_secret_key'
+socketio = SocketIO(app)
 
 
 
@@ -96,29 +101,33 @@ def update_status():
     order = next((order for order in orders if order["id"] == order_id), None)
     if order:
         order["status"] = status
+        socketio.emit("order_update", {"order_id": order_id, "status": status},broadcast=True)
+        
+        
+            
 
     return redirect(url_for("index"))
 
 
-
-
-
-
-
 def calculate_total_price(dish_ids):
-    
-    total_price = 0
-    for dish_id in dish_ids:
-        dish = next((dish for dish in menu if dish["id"] == int(dish_id)), None)
-        if dish:
-            total_price += dish["price"]
-    return total_price
+     # Calculate the total price of an order based on the dish IDs
+     total_price = 0
+     for dish_id in dish_ids:
+         dish = next((dish for dish in menu if dish["id"] == int(dish_id)), None)
+         if dish:
+             total_price += dish["price"]
+             return total_price
 
 
 app.jinja_env.globals.update(calculate_total_price=calculate_total_price)
 
+
+
+
+
+
 if __name__ == "__main__":
-    app.run(debug=True)
+    socketio.run(app)
 
 
 

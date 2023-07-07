@@ -1,9 +1,10 @@
-<!doctype html>
+ <!doctype html>
 <html lang="en">
   <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>Bootstrap demo</title>
+    
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-9ndCyUaIbzAi2FUVXJi0CjmCapSmO7SnpJef0486qhLnuZ2cdeRhO02iuK6FUUVM" crossorigin="anonymous">
   </head>
   <body>
@@ -170,5 +171,28 @@
     {% if error_message %}
     <p>{{ error_message }}</p>
     {% endif %}
+
+    
   </body>
 </html>
+
+<script src="https://cdn.socket.io/4.6.0/socket.io.min.js" integrity="sha384-c79GN5VsunZvi+Q/WObgk2in0CbZsHnjEqvFxC5DxHn9lTfNce2WW6h2pH6u/kF+" crossorigin="anonymous"></script>
+
+<script>
+
+  let socket = io();
+
+  // Listen for the "order_update" event
+  socket.on("order_update", function(data) {
+    let orderId = data.order_id;
+    let status = data.status;
+    
+    // Update the order status on the page
+    console.log(orderId,status)
+  })
+
+  console.log("hello")
+
+
+</script>
+
