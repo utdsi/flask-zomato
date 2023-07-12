@@ -7,6 +7,7 @@ from index import app,menu,orders
 def clean_menu():
     
     menu = []
+    orders=[]
 
 
 def test_index_route():

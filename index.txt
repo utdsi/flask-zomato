@@ -45,3 +45,166 @@
 
 
 15. SELECT * FROM Customers WHERE phone_number IS NULL OR phone_number = '';
+
+16. CREATE TABLE Restaurants (
+    id INT PRIMARY KEY,
+    name VARCHAR(100),
+    cuisine_type VARCHAR(100),
+    location VARCHAR(255),
+    average_rating DECIMAL(3,2),
+    delivery_available BOOLEAN
+);
+
+17 .INSERT INTO Restaurants (id, name, cuisine_type, location, average_rating, delivery_available)
+VALUES
+    (1, 'Restaurant A', 'Italian', 'New York', 4.5, TRUE),
+    (2, 'Restaurant B', 'Mexican', 'Los Angeles', 4.2, TRUE),
+    (3, 'Restaurant C', 'Chinese', 'San Francisco', 3.8, FALSE),
+    (4, 'Restaurant D', 'Indian', 'Chicago', 4.7, TRUE),
+    (5, 'Restaurant E', 'Japanese', 'Tokyo', 4.9, TRUE);
+
+18. SELECT *
+FROM Restaurants
+ORDER BY average_rating DESC;
+
+19. SELECT *
+FROM Restaurants
+WHERE delivery_available = TRUE AND average_rating > 4;
+
+20. SELECT *
+FROM Restaurants
+WHERE cuisine_type IS NULL OR cuisine_type = '';
+
+21 . SELECT COUNT(*)
+FROM Restaurants
+WHERE delivery_available = TRUE;
+
+22. SELECT *
+FROM Restaurants
+WHERE location LIKE '%New York%';
+
+23. SELECT AVG(average_rating) AS average_rating
+FROM Restaurants;
+
+24. SELECT *
+FROM Restaurants
+ORDER BY average_rating DESC
+LIMIT 5;
+
+25. DELETE FROM Restaurants
+WHERE id = 3;
+
+26. CREATE TABLE Rides (
+    id INT PRIMARY KEY,
+    driver_id INT,
+    passenger_id INT,
+    start_location VARCHAR(255),
+    end_location VARCHAR(255),
+    distance DECIMAL(5,2),
+    ride_time DECIMAL(5,2),
+    fare DECIMAL(6,2)
+);
+
+
+27. INSERT INTO Rides (id, driver_id, passenger_id, start_location, end_location, distance, ride_time, fare)
+VALUES
+    (1, 101, 201, 'Location A', 'Location B', 10.5, 30.0, 25.00),
+    (2, 102, 202, 'Location C', 'Location D', 8.2, 25.5, 20.50),
+    (3, 103, 203, 'Location E', 'Location F', 5.1, 15.5, 12.75),
+    (4, 104, 204, 'Location G', 'Location H', 12.3, 40.0, 32.00),
+    (5, 105, 205, 'Location I', 'Location J', 7.8, 22.0, 18.25);
+
+
+28. SELECT *
+FROM Rides
+ORDER BY fare DESC;
+
+
+29. SELECT SUM(distance) AS total_distance, SUM(fare) AS total_fare
+FROM Rides;
+
+
+30. SELECT AVG(ride_time) AS average_ride_time
+FROM Rides;
+
+
+31. SELECT *
+FROM Rides
+WHERE start_location LIKE '%Downtown%' OR end_location LIKE '%Downtown%';
+
+
+32. SELECT COUNT(*) AS ride_count
+FROM Rides
+WHERE driver_id = <driver_id>;
+
+
+33. UPDATE Rides
+SET fare = <new_fare>
+WHERE id = 4;
+
+
+34. SELECT driver_id, SUM(fare) AS total_fare
+FROM Rides
+GROUP BY driver_id;
+
+
+35. DELETE FROM Rides
+WHERE id = 2;
+ 
+
+36. SELECT * 
+FROM Rides
+WHERE fare = (SELECT MAX(fare) FROM Rides)
+   OR fare = (SELECT MIN(fare) FROM Rides);
+
+
+37. SELECT driver_id, AVG(fare) AS average_fare, AVG(distance) AS average_distance
+FROM Rides
+GROUP BY driver_id;
+
+
+38.  SELECT driver_id, COUNT(*) AS ride_count
+FROM Rides
+GROUP BY driver_id
+HAVING COUNT(*) > 5;
+
+
+39.  SELECT d.name
+FROM Drivers d
+JOIN Rides r ON d.driver_id = r.driver_id
+WHERE r.fare = (SELECT MAX(fare) FROM Rides);
+
+
+40. SELECT driver_id, SUM(fare) AS total_earnings
+FROM Rides
+GROUP BY driver_id
+ORDER BY total_earnings DESC
+LIMIT 3;
+
+
+41.  SELECT *
+FROM Rides
+WHERE ride_date >= DATE_SUB(CURDATE(), INTERVAL 7 DAY);
+
+
+42. SELECT *
+FROM Rides
+WHERE end_location IS NULL OR end_location = '';
+
+
+43. SELECT id, fare / distance AS fare_per_mile
+FROM Rides
+ORDER BY fare_per_mile DESC;
+
+
+44. SELECT r.id, d.name AS driver_name, p.name AS passenger_name
+FROM Rides r
+JOIN Drivers d ON r.driver_id = d.driver_id
+JOIN Passengers p ON r.passenger_id = p.passenger_id;
+
+
+45. ALTER TABLE Rides
+ADD COLUMN tip DECIMAL(6,2);
+
+
+
