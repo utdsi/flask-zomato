@@ -1,11 +1,11 @@
 from flask import Flask, render_template, request, redirect, url_for
-from flask_socketio import SocketIO, emit
+
 
 
 
 app = Flask(__name__)
-app.config['SECRET_KEY'] = 'your_secret_key'
-socketio = SocketIO(app)
+
+
 
 
 
@@ -101,10 +101,8 @@ def update_status():
     order = next((order for order in orders if order["id"] == order_id), None)
     if order:
         order["status"] = status
-        socketio.emit("order_update", {"order_id": order_id, "status": status},broadcast=True)
-        
-        
-            
+        order = next((order for order in orders if order["id"] == order_id), None)
+    
 
     return redirect(url_for("index"))
 
@@ -127,7 +125,7 @@ app.jinja_env.globals.update(calculate_total_price=calculate_total_price)
 
 
 if __name__ == "__main__":
-    socketio.run(app)
+    app.run()
 
 
 
